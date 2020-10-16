@@ -23,6 +23,8 @@ public class UserController extends HttpServlet {
         String path = request.getServletPath();
         if("/settings/user/login.do".equals(path)){
             login(request,response);
+        }else if("/settings/user/xxx.do".equals(path)){
+            //xxx(request,response);
         }
     }
 
@@ -45,7 +47,7 @@ public class UserController extends HttpServlet {
             e.printStackTrace();
             String msg = e.getMessage();
 
-            Map<String,Object> map = new HashMap<>();
+            Map<String,Object> map = new HashMap<String, Object>();
             map.put("success",false);
             map.put("msg",msg);
             PrintJson.printJsonObj(response,map);
