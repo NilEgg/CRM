@@ -1,4 +1,4 @@
-package com.egg.crm.settings.controller;
+package com.egg.crm.settings.web.controller;
 
 import com.egg.crm.settings.domain.User;
 import com.egg.crm.settings.service.UserService;
@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 
 public class UserController extends HttpServlet {
@@ -37,12 +36,15 @@ public class UserController extends HttpServlet {
         System.out.println("ip--->" + ip);
 
         UserService us = (UserService) ServiceFactory.getService(new UserServiceImpl());
+        System.out.println("0000");
         try {
+            System.out.println("111");
             User user = us.login(loginAct,loginPwd,ip);
+            System.out.println("222");
             request.getSession().setAttribute("user",user);
-
+            System.out.println("333");
             PrintJson.printJsonFlag(response,true);
-
+            System.out.println("444");
         }catch (Exception e){
             e.printStackTrace();
             String msg = e.getMessage();
