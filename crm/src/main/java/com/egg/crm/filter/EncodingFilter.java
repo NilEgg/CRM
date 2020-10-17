@@ -1,4 +1,4 @@
-package com.egg.crm;
+package com.egg.crm.filter;
 
 import javax.servlet.*;
 import java.io.IOException;
