@@ -41,7 +41,7 @@ public class ActivityController extends HttpServlet {
         String pageNoStr = request.getParameter("pageNo");
         int pageNo = Integer.valueOf(pageNoStr);
         String pageSizeStr = request.getParameter("pageSize");
-        int pageSize = Integer.valueOf(pageNoStr);
+        int pageSize = Integer.valueOf(pageSizeStr);
         int skipCount = (pageNo-1) * pageSize;
 
         Map<String,Object> map = new HashMap<String, Object>();

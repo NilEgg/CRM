@@ -36,15 +36,15 @@ public class UserController extends HttpServlet {
         System.out.println("ip--->" + ip);
 
         UserService us = (UserService) ServiceFactory.getService(new UserServiceImpl());
-        System.out.println("0000");
+
         try {
-            System.out.println("111");
+
             User user = us.login(loginAct,loginPwd,ip);
-            System.out.println("222");
+
             request.getSession().setAttribute("user",user);
-            System.out.println("333");
+
             PrintJson.printJsonFlag(response,true);
-            System.out.println("444");
+
         }catch (Exception e){
             e.printStackTrace();
             String msg = e.getMessage();
@@ -54,7 +54,5 @@ public class UserController extends HttpServlet {
             map.put("msg",msg);
             PrintJson.printJsonObj(response,map);
         }
-
-
     }
 }
