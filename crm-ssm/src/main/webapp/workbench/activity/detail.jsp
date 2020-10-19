@@ -132,7 +132,6 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	});
 
 	function showRemarkList(){
-
 		$.ajax({
 			url:"workbench/activity/getRemarkListByAid.do",
 			data:{

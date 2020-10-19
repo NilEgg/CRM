@@ -9,6 +9,7 @@ import com.egg.workbench.domain.Activity;
 import com.egg.workbench.domain.ActivityRemark;
 import com.egg.workbench.service.ActivityService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,12 +21,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SessionAttributes(value = {"a"})
+//@SessionAttributes(value = {"a"})
 @Controller
 public class ActivityController extends HttpServlet {
 
@@ -36,12 +38,10 @@ public class ActivityController extends HttpServlet {
 
     @RequestMapping(value = "/workbench/activity/updateRemark.do")
     @ResponseBody
-    private void updateRemark(HttpServletRequest request, HttpServletResponse response) {
+    private Map<String,Object> updateRemark(String id,String noteContent,HttpSession httpSession) {
         System.out.println("执行修改备注操作");
-        String id = request.getParameter("id");
-        String noteContent = request.getParameter("noteContent");
         String editTime = DateTimeUtil.getSysTime();
-        String editBy = ((User)request.getSession().getAttribute("user")).getName();
+        String editBy = ((User)httpSession.getAttribute("user")).getName();
         String editFlag = "1";
 
         ActivityRemark ar = new ActivityRemark();
@@ -51,25 +51,23 @@ public class ActivityController extends HttpServlet {
         ar.setEditBy(editBy);
         ar.setEditTime(editTime);
 
-
         boolean flag = as.updateRemark(ar);
 
         Map<String,Object> map = new HashMap<String, Object>();
         map.put("success",flag);
         map.put("ar",ar);
+        return map;
         //PrintJson.printJsonObj(response,map);
 
     }
 
     @RequestMapping(value = "/workbench/activity/saveRemark.do")
     @ResponseBody
-    private void saveRemark(HttpServletRequest request, HttpServletResponse response) {
+    private Map<String,Object> saveRemark(String noteContent,String activityId,HttpSession httpSession) {
         System.out.println("执行添加备注操作");
-        String noteContent = request.getParameter("noteContent");
-        String activityId = request.getParameter("activityId");
         String id = UUIDUtil.getUUID();
         String createTime = DateTimeUtil.getSysTime();
-        String createBy = ((User)request.getSession().getAttribute("user")).getName();
+        String createBy = ((User)httpSession.getAttribute("user")).getName();
         String editFlag = "0";
 
         ActivityRemark ar = new ActivityRemark();
@@ -85,39 +83,36 @@ public class ActivityController extends HttpServlet {
         map.put("success",flag);
         map.put("ar",ar);
         //PrintJson.printJsonObj(response,map);
+        return map;
     }
 
     @RequestMapping(value = "/workbench/activity/deleteRemark.do")
     @ResponseBody
-    private void deleteRemark(HttpServletRequest request, HttpServletResponse response) {
+    private  Map<String,Boolean> deleteRemark(String id,HttpServletRequest request, HttpServletResponse response) {
         System.out.println("删除备注操作");
-        String id = request.getParameter("id");
-
         boolean flag = as.deleteRemark(id);
         //PrintJson.printJsonFlag(response,flag);
+        Map<String,Boolean> map = new HashMap<>();
+        map.put("success",flag);
+        return map;
     }
 
     @RequestMapping(value = "/workbench/activity/getRemarkListByAid.do")
     @ResponseBody
-    private void getRemarkListByAid(HttpServletRequest request) {
+    private List<ActivityRemark> getRemarkListByAid(String activityId,HttpServletRequest request) {
         System.out.println("根据市场活动取得备注信息列表");
-        String activityId = request.getParameter("activityId");
-        System.out.println("获取的id======" + activityId);
-
         List<ActivityRemark> arList = as.getRemarkListByAid(activityId);
-
-
         //PrintJson.printJsonObj(response,arList);
+        return arList;
     }
 
     @RequestMapping(value = "/workbench/activity/detail.do")
     @ResponseBody
-    private ModelAndView detail(String id,ModelMap modelMap) {
-        System.out.println("进入到跳转详细信息页的操作");
+    private ModelAndView detail(String id, Model model) {
+        System.out.println("执行跳转详细信息页的操作");
         Activity a = as.detail(id);
 
-        modelMap.addAttribute("a",a);
-
+        //model.addAttribute("a",a);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("a",a);
         modelAndView.setViewName("forward:/workbench/activity/detail.jsp");
@@ -128,12 +123,10 @@ public class ActivityController extends HttpServlet {
 
     @RequestMapping(value = "/workbench/activity/update.do")
     @ResponseBody
-    private Map<String,Boolean> update(Activity activity, HttpServletRequest request, ModelMap modelMap) {
+    private Map<String,Boolean> update(Activity activity, HttpServletRequest request, HttpSession httpSession) {
         System.out.println("执行市场活动修改操作");
         String editTime = DateTimeUtil.getSysTime();
-        String editBy = ((User)request.getSession().getAttribute("user")).getName();
-        String edit = ((User)modelMap.get("user")).getName();
-        System.out.println("edit------>"+edit);
+        String editBy = ((User)httpSession.getAttribute("user")).getName();
 
         Activity a = new Activity();
         a.setId(activity.getId());

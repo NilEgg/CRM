@@ -25,7 +25,6 @@ public class UserServiceImpl implements UserService {
         map.put("loginAct",loginAct);
         map.put("loginPwd",loginPwd);
         User user = userDao.login(map);
-        System.out.println("11111");
         if (user == null){
             throw new LoginException("账号密码错误");
         }

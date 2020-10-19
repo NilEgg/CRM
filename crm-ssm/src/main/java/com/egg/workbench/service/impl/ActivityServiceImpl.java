@@ -92,7 +92,6 @@ public class ActivityServiceImpl implements ActivityService {
 
     public List<ActivityRemark> getRemarkListByAid(String activityId) {
         List<ActivityRemark> arList = activityRemarkDao.getRemarkListByAid(activityId);
-        System.out.println("service获取的id======" + activityId);
         return arList;
     }
 
