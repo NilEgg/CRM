@@ -9,20 +9,14 @@ import com.egg.workbench.domain.Activity;
 import com.egg.workbench.domain.ActivityRemark;
 import com.egg.workbench.service.ActivityService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,7 +82,7 @@ public class ActivityController extends HttpServlet {
 
     @RequestMapping(value = "/workbench/activity/deleteRemark.do")
     @ResponseBody
-    private  Map<String,Boolean> deleteRemark(String id,HttpServletRequest request, HttpServletResponse response) {
+    private  Map<String,Boolean> deleteRemark(String id) {
         System.out.println("删除备注操作");
         boolean flag = as.deleteRemark(id);
         //PrintJson.printJsonFlag(response,flag);
@@ -99,7 +93,7 @@ public class ActivityController extends HttpServlet {
 
     @RequestMapping(value = "/workbench/activity/getRemarkListByAid.do")
     @ResponseBody
-    private List<ActivityRemark> getRemarkListByAid(String activityId,HttpServletRequest request) {
+    private List<ActivityRemark> getRemarkListByAid(String activityId) {
         System.out.println("根据市场活动取得备注信息列表");
         List<ActivityRemark> arList = as.getRemarkListByAid(activityId);
         //PrintJson.printJsonObj(response,arList);
@@ -108,11 +102,10 @@ public class ActivityController extends HttpServlet {
 
     @RequestMapping(value = "/workbench/activity/detail.do")
     @ResponseBody
-    private ModelAndView detail(String id, Model model) {
+    private ModelAndView detail(String id) {
         System.out.println("执行跳转详细信息页的操作");
         Activity a = as.detail(id);
 
-        //model.addAttribute("a",a);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("a",a);
         modelAndView.setViewName("forward:/workbench/activity/detail.jsp");
@@ -123,7 +116,7 @@ public class ActivityController extends HttpServlet {
 
     @RequestMapping(value = "/workbench/activity/update.do")
     @ResponseBody
-    private Map<String,Boolean> update(Activity activity, HttpServletRequest request, HttpSession httpSession) {
+    private Map<String,Boolean> update(Activity activity,HttpSession httpSession) {
         System.out.println("执行市场活动修改操作");
         String editTime = DateTimeUtil.getSysTime();
         String editBy = ((User)httpSession.getAttribute("user")).getName();

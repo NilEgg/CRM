@@ -2,7 +2,6 @@ package com.egg.workbench.service.impl;
 
 import com.egg.settings.dao.UserDao;
 import com.egg.settings.domain.User;
-import com.egg.utils.SqlSessionUtil;
 import com.egg.vo.PaginationVO;
 import com.egg.workbench.dao.ActivityDao;
 import com.egg.workbench.dao.ActivityRemarkDao;

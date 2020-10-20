@@ -3,6 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+  <!--验证登录过滤器-->
+  <filter>
+    <filter-name>LoginFilter</filter-name>
+    <filter-class>com.egg.web.filter.LoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+
 
   <!--用户登录控制器-->
   <servlet>
@@ -12,7 +23,7 @@
       <param-name>contextConfigLocation</param-name>
       <param-value>classpath:conf/dispatcherServlet.xml</param-value>
     </init-param>
-    <load-on-startup>1</load-on-startup>
+    <load-on-startup>2</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>UserController</servlet-name>
@@ -27,7 +38,7 @@
       <param-name>contextConfigLocation</param-name>
       <param-value>classpath:conf/ActivityServlet.xml</param-value>
     </init-param>
-    <load-on-startup>2</load-on-startup>
+    <load-on-startup>3</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>ActivityController</servlet-name>
@@ -44,15 +55,20 @@
     <url-pattern>/workbench/activity/updateRemark.do</url-pattern>
   </servlet-mapping>
 
-  <filter>
-    <filter-name>LoginFilter</filter-name>
-    <filter-class>com.egg.filter.LoginFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>LoginFilter</filter-name>
-    <url-pattern>*.do</url-pattern>
-    <url-pattern>*.jsp</url-pattern>
-  </filter-mapping>
+  <!--线索控制器-->
+  <servlet>
+    <servlet-name>ClueController</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:conf/ActivityServlet.xml</param-value>
+    </init-param>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ClueController</servlet-name>
+    <url-pattern>/workbench/clue/getUserList.do</url-pattern>
+  </servlet-mapping>
 
 
 
@@ -64,7 +80,9 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
-  
+
+
+
 <!--字符集过滤器-->
   <filter>
     <filter-name>characterEncodingFilter</filter-name>

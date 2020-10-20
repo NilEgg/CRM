@@ -16,10 +16,12 @@ public class SqlSessionUtil {
 	
 	static{
 		
-		String resource = "mybatis-config.xml";
+		String resource = "conf/mybatis.xml";
 		InputStream inputStream = null;
 		try {
+			System.out.println("进入SqlSession-----");
 			inputStream = Resources.getResourceAsStream(resource);
+			System.out.println("退出SqlSession-----");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

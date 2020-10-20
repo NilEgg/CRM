@@ -1,11 +1,10 @@
 package com.egg.settings.web.controller;
 
-import com.egg.exception.LoginException;
+
 import com.egg.settings.domain.User;
 import com.egg.settings.service.UserService;
 import com.egg.utils.MD5Util;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

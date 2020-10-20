@@ -1,4 +1,4 @@
-package com.egg.filter;
+package com.egg.web.filter;
 
 
 import com.egg.settings.domain.User;
